@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivityFragment">
+    tools:context="com.extoix.android.spotify.SearchFragment">
 
-    <fragment
-        android:id="@+id/search_fragment"
-        android:name="com.extoix.android.spotify.SearchFragment"
+    <EditText
+        android:id="@+id/search_text"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="wrap_content" />
 
 </FrameLayout>
