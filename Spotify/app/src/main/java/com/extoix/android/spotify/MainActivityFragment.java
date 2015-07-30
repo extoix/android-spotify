@@ -6,16 +6,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
-import kaaes.spotify.webapi.android.models.Image;
 
 public class MainActivityFragment extends Fragment {
+
+    ArtistAdapter mArtistAdapter;
+    List<Artist> mArtistList;
 
     public MainActivityFragment() {
     }
@@ -27,13 +31,18 @@ public class MainActivityFragment extends Fragment {
         searchTask.execute();
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        ListView artistListView = (ListView) rootView.findViewById(R.id.artist_list);
+
+        mArtistAdapter = new ArtistAdapter(getActivity(), new ArrayList<Artist>());
+        artistListView.setAdapter(mArtistAdapter);
+
         return rootView;
     }
 
-    public class SearchTask extends AsyncTask<Void, Void, Void> {
+    public class SearchTask extends AsyncTask<Void, Void, List<Artist>> {
 
         @Override
-        protected Void doInBackground(Void... strings) {
+        protected List<Artist> doInBackground(Void... strings) {
 
             SpotifyApi spotifyApi = new SpotifyApi();
             SpotifyService spotifyService = spotifyApi.getService();
@@ -41,17 +50,15 @@ public class MainActivityFragment extends Fragment {
             ArtistsPager artistResults = spotifyService.searchArtists("Cake");
 
             List<Artist> artistList = artistResults.artists.items;
-            for(Artist artist: artistList) {
-                String artistName = artist.name;
+            return artistList;
+        }
 
-                List<Image> imagesList = artist.images;
-                int lastImageIndex = imagesList.size() - 1;
-                String imageURL = imagesList.get(lastImageIndex).url;
-
-                String something = "";
+        @Override
+        protected void onPostExecute(List<Artist> artists) {
+            if (artists != null) {
+                mArtistAdapter.clear();
+                mArtistAdapter.addAll(artists);
             }
-
-            return null;
         }
     }
 
