@@ -16,5 +16,4 @@ public class ArtistFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_artist, container, false);
     }
 
-
 }

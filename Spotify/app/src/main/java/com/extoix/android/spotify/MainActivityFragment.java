@@ -47,7 +47,7 @@ public class MainActivityFragment extends Fragment {
             SpotifyApi spotifyApi = new SpotifyApi();
             SpotifyService spotifyService = spotifyApi.getService();
 
-            ArtistsPager artistResults = spotifyService.searchArtists("Cake");
+            ArtistsPager artistResults = spotifyService.searchArtists("Coldplay");
 
             List<Artist> artistList = artistResults.artists.items;
             return artistList;
